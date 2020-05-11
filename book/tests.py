@@ -20,6 +20,10 @@ def create_user():
     user = get_user_model().objects.create(username='test@gmail.com', password='test@1234')
     return user
 
+def create_book():
+    book = Book.objects.create(title='Django', description='django book')
+    return book
+
 
 class BookTest(APITestCase):
     
@@ -37,7 +41,7 @@ class BookTest(APITestCase):
         self.assertEqual(exp_books_id, act_books_id)
     
     def test_can_get_book_detail(self):
-        book = Book.objects.create(title='Django', description='django book')
+        book = create_book()
     
         response = self.client.get(book.get_absolute_url())
     
@@ -60,4 +64,11 @@ class BookTest(APITestCase):
 
     def test_user_can_create_comment(self):
         user = create_user()
+        book = create_book()
+        comment = Comment.objects.create(book_id=book.id, user_id = user.id, text = 'Amazing book')
         
+        response = self.client.get(book.get_absolute_url())
+        top_comment = dict(response.data.get('comments')[0].items())
+        
+        self.assertEqual(top_comment.get('text'), comment.text)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

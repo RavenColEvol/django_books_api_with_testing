@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('user', 'text')
+        fields = '__all__'
 
 
 class BookSerializer(serializers.ModelSerializer):

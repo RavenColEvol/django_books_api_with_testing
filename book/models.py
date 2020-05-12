@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.validators import FileExtensionValidator
 
 from autoslug import AutoSlugField
+from taggit.managers import TaggableManager
 
 def validate_book(value):
     import os
@@ -21,6 +22,8 @@ class Book(models.Model):
     title = models.CharField(max_length=150)
     slug = AutoSlugField(populate_from='title', unique=True)
     description = models.TextField(null=True, blank=True)
+    tags = TaggableManager()
+    year = models.CharField(max_length=10, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)

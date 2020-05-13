@@ -1,16 +1,15 @@
 from rest_framework import serializers, viewsets
-from django.conf import settings
+from django.contrib.auth import get_user_model
 
 from taggit_serializer.serializers import TaggitSerializer, TagListSerializerField
 
 from .models import Book, Comment
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = settings.AUTH_USER_MODEL
-        fields = '__all__'
+        model = get_user_model()
+        fields = ('username', 'id')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -27,5 +26,3 @@ class BookSerializer(TaggitSerializer, serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = '__all__'
-
-

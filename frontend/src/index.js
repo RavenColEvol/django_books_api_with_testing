@@ -1,9 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import {Provider} from 'react-redux'
+
+import Layout from './components/Layout'
+import store from './redux/store'
 
 const App = () => {
     return (
-        <h1>Hello world</h1>
+        <Provider store={store}>
+            <Layout/>
+        </Provider>
     )
 }
 
